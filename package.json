@@ -1,0 +1,19 @@
+{
+  "name": "discreetmath_finals",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arcsine0/pasteio.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arcsine0/pasteio/issues"
+  },
+  "homepage": "https://github.com/arcsine0/pasteio#readme"
+}
