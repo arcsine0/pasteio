@@ -7,10 +7,16 @@
     justify-content: center;
     align-items: center;
 
+    background-color: rgb(27, 27, 27);
+
     padding: 10px;
 }
-.buttons {
+.button {
     margin-top: 15px;
+}
+.options {
+    display: flex;
+    flex-direction: row;
 }
 .area {
     height: 100%;
@@ -26,8 +32,14 @@
     width: 90%;
     padding: 10px;
     margin-bottom: 15px;
-    border: 1px solid black;
+
+    border: 2px solid #1976d2;
     border-radius: 7.5px;
+
+    color: white;
+}
+.span {
+    background-color: #2fff86b2;
 }
 .textWrap {
     white-space: pre-line;
