@@ -15,63 +15,68 @@ import './areas.css';
 export default function MainArea() {
     const [cvalue, setCValue] = useState("");
     const [pvalue, setPValue] = useState("");
-    const [rows, setRows] = useState(() => [
-        { id: -1, line: '--------------------------'}
-    ]);
+    const [rows, setRows] = useState([]);
+    const [selected, setSelected] = useState([]);
+    const [pasteOrder, setPasteOrder] = useState([]);
+    const [canPaste, setCanPaste] = useState(false);
     
     const cols = [
-        { field: 'id', hide: 'true'},
-        { field: 'line', headerName: 'line' }    
+        { field: 'id', headerName: 'id', hide: 'true'},
+        { field: 'line', headerName: 'line', flex: 1 }    
     ];
 
-    var pasteOrder = [];
     var pasteCount = 0;
     var pasteBox = document.querySelector('div');
 
-    pasteBox.addEventListener('paste', (event) => {
-        navigator.clipboard.writeText("");
+    
+    pasteBox.addEventListener('paste', (e) => {
         if (pasteOrder.length > 0) {
             if (pasteOrder[pasteCount] !== undefined) {
-                navigator.clipboard.writeText(pasteOrder[pasteCount]);
+                navigator.clipboard.writeText(pasteOrder[pasteCount].line);
                 pasteCount++;
             }
         }
-    })
+        e.preventDefault();
+    });
 
     function tableSetup() {
         var separated = Str(cvalue).lines()
 
-        setRows(separated.map((data, index) => [{
-            id: index,
-            line: data
-        }]));
-        console.table(separated);
-
+        setRows(separated.map((data, index) => {
+            return {
+                id: index,
+                line: data
+            }
+        }));
     }
 
-    function assignHighlighted() {
-        var selection = window.getSelection();
-        var text = selection.toString()
-
-        pasteOrder.push(text);
-
-        console.log(text);
+    function assign() {
+        setPasteOrder(selected.map(data => {
+            return {
+                line: data.line
+            }
+        }));
+        setCanPaste(true);
     }
 
     function resetArr() {
-        pasteOrder = [];
+        setPasteOrder([]);
+        setCanPaste(false);
         pasteCount = 0;
         navigator.clipboard.writeText("");
     }
 
     function pasteOnce() { 
-       navigator.clipboard.readText().then(cb => {
-           setPValue(cb);
-       })
+        if (pasteOrder.length > 0) {
+            if (pasteOrder[pasteCount] !== undefined) {
+                console.log(pasteOrder[pasteCount].line);
+                pasteCount++;
+            }
+        }
     }
 
     function pasteAll() {
-        console.table(pasteOrder);
+        console.table(selected);
     }
 
     return (
@@ -82,6 +87,11 @@ export default function MainArea() {
                     columns={cols}       
                     checkboxSelection
                     hideFooter
+                    onSelectionModelChange={(ids) => {
+                        const selectedIds = new Set(ids);
+                        const selectedRowData = rows.filter((row) => selectedIds.has(row.id));
+                        setSelected(selectedRowData);
+                    }}
                 />
                 <TextField
                     id="outlined-multiline-flexible"
@@ -97,7 +107,7 @@ export default function MainArea() {
                 <div className="options">
                     <ButtonGroup className="button" variant="outlined" aria-label="outlined button group">
                         <Button onClick={() => tableSetup()}>Load</Button>
-                        <Button onClick={() => assignHighlighted()}>Assign</Button>
+                        <Button onClick={() => assign()}>Assign</Button>
                         <Button onClick={() => resetArr()}>Reset</Button>
                     </ButtonGroup>
                 </div>
