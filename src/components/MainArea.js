@@ -15,11 +15,13 @@ import './areas.css';
 export default function MainArea() {
     const [cvalue, setCValue] = useState("");
     const [pvalue, setPValue] = useState("");
+    const [pAllValue, setPAllValue] = useState([]);
     const [rows, setRows] = useState([]);
     const [selected, setSelected] = useState([]);
     const [pasteOrder, setPasteOrder] = useState([]);
     const [pasteIndex, setPasteIndex] = useState(0);
     const [canPaste, setCanPaste] = useState(false);
+    const [db, setDb] = useState(false);
     
     const cols = [
         { field: 'id', headerName: 'id', hide: 'true', headerClassName:'header' },
@@ -29,13 +31,21 @@ export default function MainArea() {
     var pasteBox = document.querySelector('div');
 
     // pasteBox.addEventListener('paste', (e) => {
-    //     if (pasteOrder.length > 0) {
-    //         if (pasteOrder[pasteCount] !== undefined) {
-    //             navigator.clipboard.writeText(pasteOrder[pasteCount].line);
-    //             pasteCount++;
+    //     if (canPaste === true) {
+    //         e.preventDefault();
+    //         if (db === false) {
+    //             setDb(true);
+    //             if (pasteOrder.length > 0) {
+    //                 if (pasteOrder[pasteIndex] !== undefined) {
+    //                     console.log(pasteIndex, pasteOrder[pasteIndex].line);
+    //                     navigator.clipboard.writeText(pasteOrder[pasteIndex].line);
+    //                     setPasteIndex(pasteIndex + 1);
+    //                     setDb(false);
+    //                 }
+    //             }
     //         }
     //     }
-    //     e.preventDefault();
+        
     // });
 
     function tableSetup() {
@@ -60,9 +70,9 @@ export default function MainArea() {
 
     function resetArr() {
         setPasteOrder([]);
+        setPValue("");
         setCanPaste(false);
         setPasteIndex(0);
-        navigator.clipboard.writeText("");
     }
 
     function pasteOnce() { 
@@ -78,13 +88,7 @@ export default function MainArea() {
     }
 
     function pasteAll() {
-        console.table(selected);
-    }
-
-    function renderPaste() {
-        return (
-            <h2>{pvalue}</h2>
-        )
+        setPAllValue(pasteOrder);
     }
 
     return (
@@ -135,10 +139,13 @@ export default function MainArea() {
                 </div>
             </div>
             <div className="paste area">
-                <div className="pasteBox">{pvalue}</div>
+                <div className="pasteBox">
+                    {pvalue}
+                    {pAllValue}
+                </div>
                 <ButtonGroup className="buttons" variant="outlined" aria-label="outlined button group">
                     <Button onClick={() => pasteOnce()}>Paste</Button>
-                    <Button onClick={() => pasteAll()}>Paste All</Button>
+                    {/* <Button onClick={() => pasteAll()}>Paste All</Button> */}
                 </ButtonGroup>
             </div>
         </div>
