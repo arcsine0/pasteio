@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/pasteio/static/css/main.f005149f.css",
+    "main.js": "/pasteio/static/js/main.43c2516a.js",
+    "static/js/787.559ceef8.chunk.js": "/pasteio/static/js/787.559ceef8.chunk.js",
+    "index.html": "/pasteio/index.html",
+    "main.f005149f.css.map": "/pasteio/static/css/main.f005149f.css.map",
+    "main.43c2516a.js.map": "/pasteio/static/js/main.43c2516a.js.map",
+    "787.559ceef8.chunk.js.map": "/pasteio/static/js/787.559ceef8.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f005149f.css",
+    "static/js/main.43c2516a.js"
+  ]
+}
