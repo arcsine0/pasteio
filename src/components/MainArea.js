@@ -81,6 +81,12 @@ export default function MainArea() {
         console.table(selected);
     }
 
+    function renderPaste() {
+        return (
+            <h2>{pvalue}</h2>
+        )
+    }
+
     return (
         <div className="main">
             <div className="copy area">
@@ -129,15 +135,6 @@ export default function MainArea() {
                 </div>
             </div>
             <div className="paste area">
-                {/* <TextField
-                    id="outlined-multiline-flexible"
-                    className="pasteBox"
-                    label="Test Paste Here"
-                    multiline
-                    fullWidth
-                    value={pvalue}
-                    onChange={(event) => setPValue(event.target.value)}
-                /> */}
                 <div className="pasteBox">{pvalue}</div>
                 <ButtonGroup className="buttons" variant="outlined" aria-label="outlined button group">
                     <Button onClick={() => pasteOnce()}>Paste</Button>
