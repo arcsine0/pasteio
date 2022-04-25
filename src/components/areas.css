@@ -44,6 +44,14 @@
 .textWrap {
     white-space: pre-line;
 }
-.paste {
-
+.header {
+    background-color: #4d7aff;
+    color: white;
+}
+.pasteBox {
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: white;
+    border-radius: 5px;
+    
 }

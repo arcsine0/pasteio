@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 // materialUI
 import TextField from '@mui/material/TextField';
-import { Button, ButtonGroup } from "@mui/material";
+import { Button, ButtonGroup, TextareaAutosize } from "@mui/material";
 import { DataGrid } from '@mui/x-data-grid';
 
 // supercharge
@@ -18,26 +18,25 @@ export default function MainArea() {
     const [rows, setRows] = useState([]);
     const [selected, setSelected] = useState([]);
     const [pasteOrder, setPasteOrder] = useState([]);
+    const [pasteIndex, setPasteIndex] = useState(0);
     const [canPaste, setCanPaste] = useState(false);
     
     const cols = [
-        { field: 'id', headerName: 'id', hide: 'true'},
-        { field: 'line', headerName: 'line', flex: 1 }    
+        { field: 'id', headerName: 'id', hide: 'true', headerClassName:'header' },
+        { field: 'line', headerName: 'line', flex: 1, headerClassName:'header' }    
     ];
 
-    var pasteCount = 0;
     var pasteBox = document.querySelector('div');
 
-    
-    pasteBox.addEventListener('paste', (e) => {
-        if (pasteOrder.length > 0) {
-            if (pasteOrder[pasteCount] !== undefined) {
-                navigator.clipboard.writeText(pasteOrder[pasteCount].line);
-                pasteCount++;
-            }
-        }
-        e.preventDefault();
-    });
+    // pasteBox.addEventListener('paste', (e) => {
+    //     if (pasteOrder.length > 0) {
+    //         if (pasteOrder[pasteCount] !== undefined) {
+    //             navigator.clipboard.writeText(pasteOrder[pasteCount].line);
+    //             pasteCount++;
+    //         }
+    //     }
+    //     e.preventDefault();
+    // });
 
     function tableSetup() {
         var separated = Str(cvalue).lines()
@@ -62,16 +61,19 @@ export default function MainArea() {
     function resetArr() {
         setPasteOrder([]);
         setCanPaste(false);
-        pasteCount = 0;
+        setPasteIndex(0);
         navigator.clipboard.writeText("");
     }
 
     function pasteOnce() { 
+        console.log(pasteIndex);
         if (pasteOrder.length > 0) {
-            if (pasteOrder[pasteCount] !== undefined) {
-                console.log(pasteOrder[pasteCount].line);
-                pasteCount++;
+            if (pasteOrder[pasteIndex] !== undefined) {
+                console.log(pasteOrder[pasteIndex].line);
+                setPValue(pasteOrder[pasteIndex].line);
+                
             }
+            setPasteIndex(pasteIndex + 1);
         }
     }
 
@@ -92,17 +94,31 @@ export default function MainArea() {
                         const selectedRowData = rows.filter((row) => selectedIds.has(row.id));
                         setSelected(selectedRowData);
                     }}
+                    sx={{
+                        border: 2,
+                        borderColor: 'primary.main',
+                        color: 'primary.constrastText',
+                        backgroundColor: '#fff'
+                    }}
                 />
-                <TextField
+                {/* <TextField
                     id="outlined-multiline-flexible"
                     label="Paste Texts Here"
                     multiline
                     value={cvalue}
                     onChange={(e) => setCValue(e.target.value)}
-                    sx={{input:{
-                        borderColor: '#1976d2',
-                        color: '#1976d2'
-                    }}}
+                    sx={{
+                        input:
+                            {
+                            borderColor: '#1976d2',
+                            color: '#1976d2'
+                    }}  }
+                /> */}
+                <TextareaAutosize
+                    aria-label="paste-box"
+                    placeholder="Paste Raw Text Here"
+                    value={cvalue}
+                    onChange={(e) => setCValue(e.target.value)}
                 />
                 <div className="options">
                     <ButtonGroup className="button" variant="outlined" aria-label="outlined button group">
@@ -113,7 +129,7 @@ export default function MainArea() {
                 </div>
             </div>
             <div className="paste area">
-                <TextField
+                {/* <TextField
                     id="outlined-multiline-flexible"
                     className="pasteBox"
                     label="Test Paste Here"
@@ -121,7 +137,8 @@ export default function MainArea() {
                     fullWidth
                     value={pvalue}
                     onChange={(event) => setPValue(event.target.value)}
-                />
+                /> */}
+                <div className="pasteBox">{pvalue}</div>
                 <ButtonGroup className="buttons" variant="outlined" aria-label="outlined button group">
                     <Button onClick={() => pasteOnce()}>Paste</Button>
                     <Button onClick={() => pasteAll()}>Paste All</Button>
